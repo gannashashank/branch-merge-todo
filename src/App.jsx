@@ -7,51 +7,61 @@ const initialTodos = [
     id: 1,
     title: "Complete GitHub assignment",
     completed: false,
+    priority: "High",
   },
   {
     id: 2,
     title: "Review pull request",
     completed: true,
+    priority: "Medium",
   },
   {
     id: 3,
     title: "Fix login page layout",
     completed: false,
+    priority: "High",
   },
   {
     id: 4,
     title: "Update project documentation",
     completed: false,
+    priority: "Low",
   },
   {
     id: 5,
     title: "Write unit tests",
     completed: true,
+    priority: "Medium",
   },
   {
     id: 6,
     title: "Deploy the application",
     completed: false,
+    priority: "High",
   },
-];
+]
 
 function App() {
   const [todos, setTodos] = useState(initialTodos)
   const [searchTerm, setSearchTerm] = useState('')
 
-  const addTodo = (title) => {
+  const addTodo = (title, priority) => {
     const newTodo = {
       id: Date.now(),
       title,
       completed: false,
+      priority,
     }
+
     setTodos([newTodo, ...todos])
   }
 
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id
+          ? { ...todo, completed: !todo.completed }
+          : todo
       )
     )
   }
@@ -67,15 +77,18 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
+
         <div className="text-center mb-10">
           <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-2">
             Todo Manager
           </h1>
+
           <p className="text-lg text-gray-500">
             Manage your tasks and stay productive.
           </p>
         </div>
 
+        {/* Add Todo */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
           <TodoForm onAddTodo={addTodo} />
         </div>
@@ -103,6 +116,7 @@ function App() {
             No todos match your search.
           </div>
         )}
+
       </div>
     </div>
   )
