@@ -37,6 +37,7 @@ const initialTodos = [
 
 function App() {
   const [todos, setTodos] = useState(initialTodos)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const addTodo = (title) => {
     const newTodo = {
@@ -59,6 +60,10 @@ function App() {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
 
+  const filteredTodos = todos.filter((todo) =>
+    todo.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
@@ -70,16 +75,34 @@ function App() {
             Manage your tasks and stay productive.
           </p>
         </div>
-        
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
           <TodoForm onAddTodo={addTodo} />
         </div>
 
-        <TodoList 
-          todos={todos} 
-          onToggleTodo={toggleTodo} 
-          onDeleteTodo={deleteTodo} 
-        />
+        {/* Search */}
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search todos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Todo List */}
+        {filteredTodos.length > 0 ? (
+          <TodoList
+            todos={filteredTodos}
+            onToggleTodo={toggleTodo}
+            onDeleteTodo={deleteTodo}
+          />
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            No todos match your search.
+          </div>
+        )}
       </div>
     </div>
   )
